@@ -76,4 +76,5 @@ class AddItem extends React.Component<{ addItem: any, t: any }, Item> {
   }
 }
 
+export { AddItem };
 export default withTranslation()(AddItem);
