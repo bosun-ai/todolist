@@ -1,11 +1,12 @@
 import React from "react";
+import { withTranslation } from 'react-i18next';
 import { Item } from "./ToDoList";
 
 const isValid = (item: Item): boolean => {
   return item.task !== "" && item.priority !== -1;
 };
 
-class AddItem extends React.Component<{ addItem: any }, Item> {
+class AddItem extends React.Component<{ addItem: any, t: any }, Item> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -42,30 +43,31 @@ class AddItem extends React.Component<{ addItem: any }, Item> {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <table>
         <tbody>
           <tr key={""}>
-            <td>Task:</td>
+            <td>{t('taskLabel')}</td>
             <td>
               <input
                 id="task"
                 type="text"
-                placeholder="Enter task here"
+                placeholder={t('taskPlaceholder')}
                 onChange={this.setTask}
               />
             </td>
-            <td>Priority:</td>
+            <td>{t('priorityLabel')}</td>
             <td>
               <input
-                id="prioity"
+                id="priority"
                 type="text"
-                placeholder="Enter priority here"
+                placeholder={t('priorityPlaceholder')}
                 onChange={this.setPriority}
               />
             </td>
             <td>
-              <input id="submit" type="submit" value="Add" onClick={this.addItem} />
+              <input id="submit" type="submit" value={t('addButton')} onClick={this.addItem} />
             </td>
           </tr>
         </tbody>
@@ -74,4 +76,4 @@ class AddItem extends React.Component<{ addItem: any }, Item> {
   }
 }
 
-export default AddItem;
+export default withTranslation()(AddItem);

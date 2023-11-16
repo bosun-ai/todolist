@@ -19,9 +19,24 @@ i18n
     resources: {
       en: {
         translation: {
-          // here we will place our translations...
+          taskLabel: "Task:",
+          taskPlaceholder: "Enter task here",
+          priorityLabel: "Priority:",
+          priorityPlaceholder: "Enter priority here",
+          addButton: "Add"
         }
-      }
+      },
+      // Add other languages here
+      // es: {
+      //   translation: {
+      //     taskLabel: "Tarea:",
+      //     taskPlaceholder: "Ingrese la tarea aquí",
+      //     priorityLabel: "Prioridad:",
+      //     priorityPlaceholder: "Ingrese la prioridad aquí",
+      //     addButton: "Agregar"
+      //   }
+      // }
+      // ... more languages
     }
   });
 
