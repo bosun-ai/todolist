@@ -53,15 +53,17 @@ class AddItem extends React.Component<{ addItem: any }, Item> {
                 type="text"
                 placeholder="Enter task here"
                 onChange={this.setTask}
+                value={this.state.task}
               />
             </td>
             <td>Priority:</td>
             <td>
               <input
-                id="prioity"
+                id="priority"
                 type="text"
                 placeholder="Enter priority here"
                 onChange={this.setPriority}
+                value={this.state.priority.toString()}
               />
             </td>
             <td>
