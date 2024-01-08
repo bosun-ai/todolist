@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import AddItem from './AddItem';
 
 test('Renders Input Form', () => {
@@ -43,7 +43,7 @@ test('Updates priority state on input change', () => {
   expect(priorityInput.value).toBe('2');
 });
 
-test('Adds item and resets state on submit', () => {
+test('Adds item and resets state on submit', async () => {
   const addItemMock = jest.fn();
   const { getByText, getByPlaceholderText } = render(<AddItem addItem={addItemMock} />);
 
@@ -55,7 +55,12 @@ test('Adds item and resets state on submit', () => {
   fireEvent.change(priorityInput, { target: { value: '2' } });
   fireEvent.click(submitButton);
 
-  expect(addItemMock).toHaveBeenCalledWith({ task: 'New Task', priority: 2 });
-  expect(taskInput.value).toBe('');
-  expect(priorityInput.value).toBe('');
+  await waitFor(() => {
+    expect(addItemMock).toHaveBeenCalledWith({ task: 'New Task', priority: 2 });
+  });
+
+  await waitFor(() => {
+    expect(taskInput.value).toBe('');
+    expect(priorityInput.value).toBe('');
+  });
 });

@@ -58,7 +58,7 @@ class AddItem extends React.Component<{ addItem: any }, Item> {
             <td>Priority:</td>
             <td>
               <input
-                id="prioity"
+                id="priority"
                 type="text"
                 placeholder="Enter priority here"
                 onChange={this.setPriority}
