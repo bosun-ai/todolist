@@ -30,6 +30,7 @@ class AddItem extends React.Component<{ addItem: any }, Item> {
   }
 
   addItem(evt: any) {
+    evt.preventDefault();
     const item = this.state;
     if (isValid(item)) {
       this.props.addItem(item);
@@ -43,33 +44,35 @@ class AddItem extends React.Component<{ addItem: any }, Item> {
 
   render() {
     return (
-      <table>
-        <tbody>
-          <tr key={""}>
-            <td>Task:</td>
-            <td>
-              <input
-                id="task"
-                type="text"
-                placeholder="Enter task here"
-                onChange={this.setTask}
-              />
-            </td>
-            <td>Priority:</td>
-            <td>
-              <input
-                id="prioity"
-                type="text"
-                placeholder="Enter priority here"
-                onChange={this.setPriority}
-              />
-            </td>
-            <td>
-              <input id="submit" type="submit" onClick={this.addItem} value="Submit" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <form data-testid="add-item-form" onSubmit={this.addItem}>
+        <table>
+          <tbody>
+            <tr key={""}>
+              <td>Task:</td>
+              <td>
+                <input
+                  id="task"
+                  type="text"
+                  placeholder="Enter task here"
+                  onChange={this.setTask}
+                />
+              </td>
+              <td>Priority:</td>
+              <td>
+                <input
+                  id="priority"
+                  type="text"
+                  placeholder="Enter priority here"
+                  onChange={this.setPriority}
+                />
+              </td>
+              <td>
+                <input id="submit" type="submit" value="Submit" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
     );
   }
 }
