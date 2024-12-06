@@ -1,38 +1,40 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import App from "./App";
 
-test("Renders Task Label", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Task:");
-  expect(linkElement).toBeInTheDocument();
-});
+jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-test("Renders Priority Label", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Priority:");
-  expect(linkElement).toBeInTheDocument();
-});
+describe("App Component", () => {
+  test("Renders Labels and Table", () => {
+    render(<App />);
+    const taskLabel = screen.getByText("Task:");
+    expect(taskLabel).toBeInTheDocument();
 
-test("Renders Table Header - Task Column", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Task");
-  expect(linkElement).toBeInTheDocument();
-});
+    const priorityLabel = screen.getByText("Priority:");
+    expect(priorityLabel).toBeInTheDocument();
 
-test("Renders Table Header - Priority Column", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Priority");
-  expect(linkElement).toBeInTheDocument();
-});
+    const taskHeader = screen.getByText("Task");
+    expect(taskHeader).toBeInTheDocument();
 
-test("Renders Table  - First Row Task", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Pick up Milk");
-  expect(linkElement).toBeInTheDocument();
-});
+    const priorityHeader = screen.getByText("Priority");
+    expect(priorityHeader).toBeInTheDocument();
+  });
 
-test("Renders Table  - First Row Priority", () => {
-  render(<App />);
-  const linkElement = screen.getByText("1");
-  expect(linkElement).toBeInTheDocument();
+  test("Prevents adding duplicate priority", () => {
+    render(<App />);
+    fireEvent.change(screen.getByPlaceholderText("Enter task here"), { target: { value: "Test Task" } });
+    fireEvent.change(screen.getByPlaceholderText("Enter priority here"), { target: { value: "1" } });
+    fireEvent.click(screen.getByValue("Submit"));
+
+    expect(window.alert).toHaveBeenCalledWith("Item with priorirty: 1 exists");
+  });
+
+  test("Adds new task with unique priority", () => {
+    render(<App />);
+    fireEvent.change(screen.getByPlaceholderText("Enter task here"), { target: { value: "New Task" } });
+    fireEvent.change(screen.getByPlaceholderText("Enter priority here"), { target: { value: "4" } });
+    fireEvent.click(screen.getByValue("Submit"));
+
+    expect(screen.getByText("New Task")).toBeInTheDocument();
+    expect(screen.getByText("4")).toBeInTheDocument();
+  });
 });
