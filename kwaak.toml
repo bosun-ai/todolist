@@ -1,0 +1,31 @@
+language = "typescript"
+tavily_api_key = "env:TAVILY_API_KEY"
+tool_executor = "docker"
+
+[commands]
+test = "npm run test"
+coverage = "npm run test"
+
+[github]
+owner = "bosun-ai"
+repository = "todolist"
+main_branch = "master"
+token = "env:GITHUB_TOKEN"
+
+[llm.indexing]
+api_key = "env:KWAAK_OPENAI_API_KEY"
+provider = "OpenAI"
+prompt_model = "gpt-4o-mini"
+
+[llm.query]
+api_key = "env:KWAAK_OPENAI_API_KEY"
+provider = "OpenAI"
+prompt_model = "gpt-4o"
+
+[llm.embedding]
+api_key = "env:KWAAK_OPENAI_API_KEY"
+provider = "OpenAI"
+embedding_model = "text-embedding-3-large"
+
+[docker]
+dockerfile = "Dockerfile"
