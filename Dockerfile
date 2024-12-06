@@ -1,5 +1,5 @@
 # Always build against latest stable
-FROM node:latest-slim
+FROM node:latest
 
 
 # Install tool dependencies for app and git/ssh for the workspace
@@ -11,14 +11,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* \
   && cp /usr/bin/fdfind /usr/bin/fd
 
-RUN npm install -g yarn
-
 COPY package.json yarn.lock /app/
 
-run yarn install
+WORKDIR /app
 
-RUN cargo install cargo-tarpaulin
+RUN yarn install
 
 COPY . /app
 
-WORKDIR /app
