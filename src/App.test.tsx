@@ -23,7 +23,7 @@ describe("App Component", () => {
     render(<App />);
     fireEvent.change(screen.getByPlaceholderText("Enter task here"), { target: { value: "Test Task" } });
     fireEvent.change(screen.getByPlaceholderText("Enter priority here"), { target: { value: "1" } });
-    fireEvent.click(screen.getByValue("Submit"));
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }));
 
     expect(window.alert).toHaveBeenCalledWith("Item with priorirty: 1 exists");
   });
@@ -32,7 +32,7 @@ describe("App Component", () => {
     render(<App />);
     fireEvent.change(screen.getByPlaceholderText("Enter task here"), { target: { value: "New Task" } });
     fireEvent.change(screen.getByPlaceholderText("Enter priority here"), { target: { value: "4" } });
-    fireEvent.click(screen.getByValue("Submit"));
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }));
 
     expect(screen.getByText("New Task")).toBeInTheDocument();
     expect(screen.getByText("4")).toBeInTheDocument();

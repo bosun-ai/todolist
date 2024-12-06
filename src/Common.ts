@@ -1,4 +1,3 @@
-export interface Item {
-  task: string;
-  priority: number;
-}
+export const isValid = (item: Item): boolean => {
+  return item.task !== "" && item.priority !== -1;
+};

@@ -19,14 +19,14 @@ describe("AddItem Component", () => {
   test("Adds valid item", () => {
     fireEvent.change(screen.getByPlaceholderText("Enter task here"), { target: { value: "Clean the house" } });
     fireEvent.change(screen.getByPlaceholderText("Enter priority here"), { target: { value: "4" } });
-    fireEvent.click(screen.getByValue("Submit"));
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }));
 
     expect(mockAddItem).toHaveBeenCalledWith({ task: "Clean the house", priority: 4 });
   });
 
   test("Does not add invalid item", () => {
     fireEvent.change(screen.getByPlaceholderText("Enter task here"), { target: { value: "" } });
-    fireEvent.click(screen.getByValue("Submit"));
+    fireEvent.click(screen.getByRole("button", { name: "Submit" }));
 
     expect(mockAddItem).not.toHaveBeenCalled();
   });
