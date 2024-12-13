@@ -1,38 +1,40 @@
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
+import App from './App';
 
-test("Renders Task Label", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Task:");
-  expect(linkElement).toBeInTheDocument();
-});
+// Check if an item with duplicate priority triggers an alert
+jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-test("Renders Priority Label", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Priority:");
-  expect(linkElement).toBeInTheDocument();
-});
+describe('App Component', () => {
+  test('renders without crashing', () => {
+    render(<App />);
+  });
 
-test("Renders Table Header - Task Column", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Task");
-  expect(linkElement).toBeInTheDocument();
-});
+  test('adds a new item when a non-duplicate priority is used', () => {
+    const { getByText, getByPlaceholderText } = render(<App />);
+    const taskInput = getByPlaceholderText('Enter task here');
+    const priorityInput = getByPlaceholderText('Enter priority here');
+    const submitButton = getByText('Submit');
 
-test("Renders Table Header - Priority Column", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Priority");
-  expect(linkElement).toBeInTheDocument();
-});
+    fireEvent.change(taskInput, { target: { value: 'Buy Cheese' } });
+    fireEvent.change(priorityInput, { target: { value: '4' } });
+    fireEvent.click(submitButton);
 
-test("Renders Table  - First Row Task", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Pick up Milk");
-  expect(linkElement).toBeInTheDocument();
-});
+    const newItem = getByText('Buy Cheese');
 
-test("Renders Table  - First Row Priority", () => {
-  render(<App />);
-  const linkElement = screen.getByText("1");
-  expect(linkElement).toBeInTheDocument();
+    expect(newItem).toBeInTheDocument();
+  });
+
+  test('does not add a new item when a duplicate priority is used', () => {
+    const { getByText, getByPlaceholderText } = render(<App />);
+    const taskInput = getByPlaceholderText('Enter task here');
+    const priorityInput = getByPlaceholderText('Enter priority here');
+    const submitButton = getByText('Submit');
+
+    fireEvent.change(taskInput, { target: { value: 'New Task' } });
+    fireEvent.change(priorityInput, { target: { value: '1' } }); // Duplicate priority
+    fireEvent.click(submitButton);
+
+    expect(window.alert).toHaveBeenCalledWith('Item with priorirty: 1 exists');
+  });
 });
