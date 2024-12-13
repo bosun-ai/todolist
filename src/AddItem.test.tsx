@@ -11,10 +11,10 @@ describe('<AddItem />', () => {
   });
 
   test('renders input fields and a submit button', () => {
-    const { getByPlaceholderText, getByValue } = render(<AddItem addItem={addItemMock} />);
+    const { getByPlaceholderText, getByRole } = render(<AddItem addItem={addItemMock} />);
     expect(getByPlaceholderText('Enter task here')).toBeInTheDocument();
     expect(getByPlaceholderText('Enter priority here')).toBeInTheDocument();
-    expect(getByValue('Submit')).toBeInTheDocument();
+    expect(getByRole('button', { name: 'Submit' })).toBeInTheDocument();
   });
 
   test('updates task and priority on change', () => {
@@ -30,10 +30,10 @@ describe('<AddItem />', () => {
   });
 
   test('calls addItem prop with correct data on valid submission', () => {
-    const { getByPlaceholderText, getByValue } = render(<AddItem addItem={addItemMock} />);
+    const { getByPlaceholderText, getByRole } = render(<AddItem addItem={addItemMock} />);
     const taskInput = getByPlaceholderText('Enter task here');
     const priorityInput = getByPlaceholderText('Enter priority here');
-    const submitButton = getByValue('Submit');
+    const submitButton = getByRole('button', { name: 'Submit' });
 
     fireEvent.change(taskInput, { target: { value: 'New Task' } });
     fireEvent.change(priorityInput, { target: { value: '1' } });
@@ -45,8 +45,8 @@ describe('<AddItem />', () => {
   });
 
   test("does not call addItem prop on invalid submission", () => {
-    const { getByValue } = render(<AddItem addItem={addItemMock} />);
-    const submitButton = getByValue("Submit");
+    const { getByRole } = render(<AddItem addItem={addItemMock} />);
+    const submitButton = getByRole("button", { name: "Submit" });
 
     fireEvent.click(submitButton);
 
